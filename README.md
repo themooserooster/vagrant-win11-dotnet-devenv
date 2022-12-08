@@ -48,7 +48,7 @@ Honestly, you're going to be using Vagrant weekly if not daily from here on out,
 
 ## Good-To-Know
 
-Once you're up and running, the base box is no longer needed. Vagrant keeps imported boxes under `~\vagrant.d\`. Delete the `.box` file created in this repo folder and give your hard drive some space back. Same goes for the `.iso` files if you have acess to them somewhere else.
+Once you're up and running, the base box is no longer needed. Vagrant keeps imported boxes under `~\vagrant.d\`. Delete the `.box` file created in this repo folder and give your hard drive some space back. Same goes for the `.iso` files if you have access to them somewhere else.
 
 #### The script will adjust the following settings for Vagrant compatibility:
 
