@@ -1,5 +1,6 @@
 param(
-    [switch]$Debug = $false
+    [switch]$Debug = $false,
+    [switch]$ClearPreviousBuild = $true
 )
 
 $ErrorActionPreference = 'Stop'
@@ -42,12 +43,24 @@ function Clear-PreviousBuild {
     }
 }
 
+function Init {
 
-Clear-PreviousBuild
+    param (
+        [Parameter()]
+        [bool]
+        $ClearPreviousBuild
+    )
 
-if (!(Test-Path -Path .\windows_11_hyperv.box)) {
-    Invoke-Packer
+    if ($ClearPreviousBuild) {
+        Clear-PreviousBuild
+    }
+
+    if (!(Test-Path -Path .\windows_11_hyperv.box)) {
+        Invoke-Packer
+    }
+
+    Initialize-Vagrant;
+    Invoke-VagrantUp;
 }
 
-Initialize-Vagrant;
-Invoke-VagrantUp;
+Init -ClearPreviousBuild $ClearPreviousBuild;

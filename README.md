@@ -5,26 +5,53 @@
 This repository contains a Powershell script automatically creates a ready-to-go Window 11 Development Environment in a two-stage process:
 
 1. Use Packer to create a Vagrant base box from from stock .iso images
-2. Use Vagrant to create a working Hyper-V virtual machine from the base box
+2. Use Vagrant to create a working Virtualbox or Hyper-V virtual machine from the base box
 
 ## Basic Requirements
 
 ### Tools To Install:
 
-* [Hyper-V](https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v)
-    * Either grant your user machine-level admin permissions (not recommended) or add you user account to the `Hyper-V Administrators` group via `lusrmgr.msc` (preferred). 
-* [Packer](packer.io)
-    * Packer comes as a .zip archive. Put `packer.exe` in a common location like `C:\tools` and add that location to the system PATH (*not the user PATH*).
-* [Vagrant](vagrantup.com)
+* A virtual machine hypervisor. Either: 
+
+    * [VirtualBox](https://www.virtualbox.org/) (_Preferred, cross-platform. Use if Hyper-V is not already installed._)
+
+        ```
+        choco install virtualbox
+        ```
+
+    * *OR*
+
+    * [Hyper-V](https://learn.microsoft.com/en-us/virtualization/hyper-v-on-windows/about/) (_Windows only, use only if already installed._)
+        
+        * Virtuabox is strongly preferred. _Once you have installed Hyper-V, no other hypervisor will work on your computer short of a full partition wipe. This a long-known drawback of Hyper-V_ Hyper-V support is only for those machines that already have it installed and are now stuck with it.
+        
+        * Either grant your user machine-level admin permissions (not recommended) or add you user account to the `Hyper-V Administrators` group via `lusrmgr.msc` (preferred).
+    
+
+* [Packer](https://packer.io/)
+    
+    ```
+    choco install packer
+    ```
+
+* [Vagrant](https://vagrantup.com/)
+    
     * Read the documentation on the basic Vagrant commands. At least know [vagrant up](https://www.vagrantup.com/docs/cli/up), [ vagrant halt](https://www.vagrantup.com/docs/cli/halt), and [ vagrant destroy](https://www.vagrantup.com/docs/cli/destroy).
-* [Windows ADK](https://docs.microsoft.com/en-us/windows-hardware/get-started/adk-install#other-adk-downloads) (You only need to check the `DISM` subfeature in the installer. It installs `oscdimg.exe`, a utility Packer relies on)
-    * Add the `oscdimg.exe` location to the system PATH. It's normally in a location like `C:\Program Files (x86)\Windows Kits<YOUR WINDOWS VERSION HERE>\Assessment and Deployment Kit\Deployment Tools\amd64\Oscdimg\`. From the edit PATH dialog, you can browse for it. 
+
+    ```
+    choco install vagrant
+    ```
+
+* Windows ADK
+    
+    ```
+    choco install windows-adk-oscdimg
+    ```
 
 ### Other Requirements
 
 * At least 120GB free space 
 * Windows 11 `.iso` file
-* SQL Server 2019 `.iso` file
 * A Windows 11 Product Key
 * A Visual Studio 2022 Product Key
 

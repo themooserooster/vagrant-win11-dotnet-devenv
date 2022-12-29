@@ -11,6 +11,6 @@ choco install packer --no-progress -y
 choco install terraform --no-progress -y
 choco install vagrant --no-progress -y
 choco install firefox-dev --pre --no-progress -y
-choco install urlrewrite --no-progress -y 
+choco install sql-server-2022 --params="/FEATURES=SQLEngine /INSTANCENAME=MSSQLSERVER /SECURITYMODE=""SQL"" /SQLSVCACCOUNT=""NT AUTHORITY\Network Service"" /AGTSVCACCOUNT=""NT AUTHORITY\Network Service"" /SQLSYSADMINACCOUNTS=""vagrant"" /SAPWD=""vagrant""" --no-progress -y
 choco install visualstudio2022professional --no-progress -y 
 choco install visualstudio2022-workload-netweb -y --no-progress

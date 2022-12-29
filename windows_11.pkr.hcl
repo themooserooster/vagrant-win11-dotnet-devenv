@@ -111,16 +111,6 @@ build {
   provisioner "powershell" {
     elevated_user     = "vagrant"
     elevated_password = "vagrant"
-    scripts           = ["./scripts/packer/provisioning/Install-SqlServer.ps1"]
-  }
-
-  provisioner "windows-restart" {
-    restart_timeout = "30m"
-  }
-
-  provisioner "powershell" {
-    elevated_user     = "vagrant"
-    elevated_password = "vagrant"
     inline            = ["Optimize-Volume -DriveLetter C -Defrag -ReTrim"]
   }
 
