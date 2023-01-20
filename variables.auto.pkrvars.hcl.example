@@ -5,5 +5,4 @@ windows_iso_checksum = "sha256:a138016401223bbe927a7930b0c70948fdbf0b2b1dee216e6
 windows_iso_url = "./iso/windows_11.iso"
 memory = "16384"
 vm_name = "windows_11_hyperv"
-sqlserver_iso_url = "./iso/sqlserver_2019.iso"
 enable_dynamic_memory = true

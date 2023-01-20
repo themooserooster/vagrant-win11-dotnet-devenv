@@ -1,5 +1,6 @@
 param(
-    [switch]$Debug = $false
+    [switch]$Debug = $false,
+    [string][ValidateSet("HyperV", "Virtualbox")][Parameter(Mandatory = $true)]$Format
 )
 
 $ErrorActionPreference = 'Stop'
