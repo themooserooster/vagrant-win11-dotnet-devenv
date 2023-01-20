@@ -10,11 +10,11 @@ Vagrant.configure("2") do |config|
   settings = JSON.parse(File.read('devEnvSettings.json'))
 
   config.vm.box = "windows_11_hyperv"
-  config.vm.communicator = "winrm"
+  config.vm.communicator = "ssh"
 
   # Admin user name and password
-  config.winrm.username = "vagrant"
-  config.winrm.password = "vagrant"
+  config.ssh.username = "vagrant"
+  config.ssh.password = "vagrant"
   # config.winssh.insert_key = false
 
   config.vm.guest = :windows
@@ -27,15 +27,15 @@ Vagrant.configure("2") do |config|
     args: [
       settings['windowsKey'],
       settings['visualStudioKey'],
-      settings['devEnvUserFullName'],
-      settings['devEnvUserEmail']
+      settings['gitUserFullName'],
+      settings['gitUserEmail']
     ]
   
   config.windows.halt_timeout = 15
   
-    config.trigger.after :up do |trigger|
-      trigger.run = { path: "./scripts/vagrant/up/Connect-VM.ps1" }
-    end
+    # config.trigger.after :up do |trigger|
+    #   trigger.run = { path: "./scripts/vagrant/up/Connect-VirtualboxVM.ps1" }
+    # end
 
   config.trigger.before :destroy do |trigger|
     trigger.run_remote = { path: "./scripts/vagrant/deprovisioning/Deprovision-DevEnvironment.ps1" }

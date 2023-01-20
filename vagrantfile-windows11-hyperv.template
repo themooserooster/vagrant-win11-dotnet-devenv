@@ -1,0 +1,43 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+require "json"
+
+Vagrant.require_version ">= 2.2.19"
+
+Vagrant.configure("2") do |config|
+
+  settings = JSON.parse(File.read('devEnvSettings.json'))
+
+  config.vm.box = "windows_11_hyperv"
+  config.vm.communicator = "winrm"
+
+  # Admin user name and password
+  config.winrm.username = "vagrant"
+  config.winrm.password = "vagrant"
+  # config.winssh.insert_key = false
+
+  config.vm.guest = :windows
+  config.vm.synced_folder '.', '/vagrant', disabled: true 
+  config.vm.provider :hyperv
+  config.vm.network "private_network", type: "dhcp"
+
+  config.vm.provision "shell", 
+    path: "./scripts/vagrant/provisioning/Initialize-EnvironmentSettings.ps1", 
+    args: [
+      settings['windowsKey'],
+      settings['visualStudioKey'],
+      settings['devEnvUserFullName'],
+      settings['devEnvUserEmail']
+    ]
+  
+  config.windows.halt_timeout = 15
+  
+    config.trigger.after :up do |trigger|
+      trigger.run = { path: "./scripts/vagrant/up/Connect-HyperVVM.ps1" }
+    end
+
+  config.trigger.before :destroy do |trigger|
+    trigger.run_remote = { path: "./scripts/vagrant/deprovisioning/Deprovision-DevEnvironment.ps1" }
+  end
+end

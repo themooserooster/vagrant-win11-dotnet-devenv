@@ -11,7 +11,7 @@ This repository contains a Powershell script automatically creates a ready-to-go
 
 ### Tools To Install:
 
-* A virtual machine hypervisor. Either: 
+* ### A virtual machine hypervisor. Either: 
 
     * [VirtualBox](https://www.virtualbox.org/) (_Preferred, cross-platform. Use if Hyper-V is not already installed._)
 
@@ -19,24 +19,21 @@ This repository contains a Powershell script automatically creates a ready-to-go
         choco install virtualbox
         ```
 
-    * *OR*
-
-    * [Hyper-V](https://learn.microsoft.com/en-us/virtualization/hyper-v-on-windows/about/) (_Windows only, use only if already installed._)
+    * *OR* [Hyper-V](https://learn.microsoft.com/en-us/virtualization/hyper-v-on-windows/about/) (_Windows only, use only if already installed._)
         
-        * Virtuabox is strongly preferred. _Once you have installed Hyper-V, no other hypervisor will work on your computer short of a full partition wipe. This a long-known drawback of Hyper-V_ Hyper-V support is only for those machines that already have it installed and are now stuck with it.
+        Virtualbox is strongly preferred. _Once you have installed Hyper-V, no other hypervisor will work on your computer short of a full partition wipe. This a long-known drawback of Hyper-V._ Hyper-V support is only for those machines that already have it installed and are now stuck with it.
         
-        * Either grant your user machine-level admin permissions (not recommended) or add you user account to the `Hyper-V Administrators` group via `lusrmgr.msc` (preferred).
-    
+        Either grant your user machine-level admin permissions (not recommended) or add you user account to the `Hyper-V Administrators` group via `lusrmgr.msc` (preferred).
 
-* [Packer](https://packer.io/)
+* ### [Packer](https://packer.io/)
     
     ```
     choco install packer
     ```
 
-* [Vagrant](https://vagrantup.com/)
+* ### [Vagrant](https://vagrantup.com/)
     
-    * Read the documentation on the basic Vagrant commands. At least know [vagrant up](https://www.vagrantup.com/docs/cli/up), [ vagrant halt](https://www.vagrantup.com/docs/cli/halt), and [ vagrant destroy](https://www.vagrantup.com/docs/cli/destroy).
+    Read the documentation on the basic Vagrant commands. At least know [vagrant up](https://www.vagrantup.com/docs/cli/up), [ vagrant halt](https://www.vagrantup.com/docs/cli/halt), and [ vagrant destroy](https://www.vagrantup.com/docs/cli/destroy).
 
     ```
     choco install vagrant
@@ -60,16 +57,19 @@ Contact the Web Team developer or a system administrator if you need help with a
 ## Make The Thing Run
 
 1. Place the required `.iso` files in the `/iso` directory of this repo. See further instructions for installation images [here](iso/README.md)
+
 1. Make a copy of `variables.auto.pkrvars.hcl.example`. Rename the **copy** `variables.auto.pkrvars.hcl`. Set the variable values in the file accordingly (.iso names, image checksums, etc). _Make sure you have enough free space, RAM, and CPUs to run the virtual machine._
+
 1. Make a copy of `devEnvSettings.json.example`. Rename the **copy** `devEnvSettings.json`. Enter the appropriate settings in the file.
+
 1. In PowerShell, navigate to the root of this repo and execute `.\Initialize-DevelopmentEnvironment.ps1`
 
 *Don't let the computer go to sleep while the VM is being built. This can cause the process to fail and then you have to start all over. If you have to leave the computer, put a long-running video (on mute, you animal!) on full screen to prevent your computer from going to sleep.*
 
 ## Now That That's Done
 
-### DO Use The Vagrant CLI, DON'T Use Hyper-V Manager
-From here on, you should only access and manage this VM via `vagrant` on the command line and its commands; especially `up`, `halt`, and `destroy`. **DO NOT** ever use the Hyper-V Manager to delete the VM. There is an important script that must run to deactivate the Windows product key before the VM can be deleted. Hyper-V Manager cannot do this itself. You must use `vagrant destroy` if you want to delete this VM.
+### DO Use The Vagrant CLI, DON'T Use Your Hypervisor Manager
+From here on, you should only access and manage this VM via `vagrant` on the command line and its commands; especially `up`, `halt`, and `destroy`. **DO NOT** ever use the hypervisor manager (Either Virtualbox or Hyper-V Manager) to delete the VM. There is an important script that must run to deactivate the Windows product key before the VM can be deleted. Your hypervisor manager cannot do this itself. You must use `vagrant destroy` if you want to delete this VM.
 
 Honestly, you're going to be using Vagrant weekly if not daily from here on out, so you might as well learn all the available commands.
 

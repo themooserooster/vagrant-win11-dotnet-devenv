@@ -1,6 +1,5 @@
 param(
-    [switch]$Debug = $false,
-    [switch]$ClearPreviousBuild = $true
+    [switch]$Debug = $false
 )
 
 $ErrorActionPreference = 'Stop'
@@ -12,21 +11,12 @@ function Invoke-Packer {
     }
     
     try {
-        packer build . 
+        packer build .
     }
     catch {
         Write-Error "Packer experienced an error. Cancelling development environment build..."
         Write-Error $_
     }
-}
-
-function Initialize-Vagrant {
-    vagrant box add --name windows_11_hyperv .\windows_11_hyperv.box
-    vagrant init windows_11_hyperv
-}
-
-function Invoke-VagrantUp {
-    vagrant up
 }
 
 function Clear-PreviousBuild {
@@ -41,26 +31,15 @@ function Clear-PreviousBuild {
     if (Test-Path -Path .vagrant) {
         Remove-Item -Path .vagrant -Recurse -Force
     }
+
+    if (Test-Path -Path .\windows_11_hyperv.box) {
+        Remove-Item -Path .\windows_11_hyperv.box
+    }
 }
 
 function Init {
-
-    param (
-        [Parameter()]
-        [bool]
-        $ClearPreviousBuild
-    )
-
-    if ($ClearPreviousBuild) {
-        Clear-PreviousBuild
-    }
-
-    if (!(Test-Path -Path .\windows_11_hyperv.box)) {
-        Invoke-Packer
-    }
-
-    Initialize-Vagrant;
-    Invoke-VagrantUp;
+    Clear-PreviousBuild
+    Invoke-Packer
 }
 
-Init -ClearPreviousBuild $ClearPreviousBuild;
+Init

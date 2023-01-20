@@ -28,8 +28,7 @@ $features = @(
     'IIS-CGI',
     'IIS-ServerSideIncludes',
     'IIS-HttpCompressionStatic',
-    'IIS-ManagementConsole',
-    'Microsoft-Hyper-V'
+    'IIS-ManagementConsole'
 )
 
 Enable-WindowsOptionalFeature -FeatureName $features -All -Online -NoRestart

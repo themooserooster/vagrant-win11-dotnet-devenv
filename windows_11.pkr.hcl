@@ -43,6 +43,33 @@ variable "enable_dynamic_memory" {
   default = true
 }
 
+source "virtualbox-iso" "windows11" {
+  iso_checksum                     = var.windows_iso_checksum
+  iso_url                          = var.windows_iso_url
+  guest_os_type                    = "Windows11_64"
+  vm_name                          = var.vm_name
+  boot_command                     = ["a<wait>a<wait>a"]
+  shutdown_command                 = "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\""
+  boot_wait                        = "-1s"
+  cd_files                         = [
+                                        "./answer_files/Autounattend.xml", 
+                                        "./scripts/packer/setup/Setup.ps1",
+                                     ]
+  communicator                     = "ssh"
+  ssh_timeout                      = "1h"
+  ssh_username                     = "vagrant"
+  ssh_password                     = "vagrant"
+  cpus                             = var.cpus
+  memory                           = var.memory
+  disk_size                        = var.disk_size
+  hard_drive_nonrotaional          = true
+  hard_drive_discard               = true
+  enable_dynamic_memory            = var.enable_dynamic_memory
+  gfx_controller                   = "vboxsvga"
+  gfx_vram_size                    = 256
+  gfx_accelerate_3d                = true
+}
+
 source "hyperv-iso" "windows11" {
   boot_command                     = ["a<wait>a<wait>a"]
   boot_wait                        = "-1s"
@@ -59,7 +86,6 @@ source "hyperv-iso" "windows11" {
   enable_secure_boot               = true
   enable_virtualization_extensions = false
   generation                       = "2"
-  guest_additions_mode             = "disable"
   iso_checksum                     = var.windows_iso_checksum
   iso_url                          = var.windows_iso_url
   memory                           = var.memory
@@ -73,19 +99,13 @@ source "hyperv-iso" "windows11" {
 
 
 build {
-  sources = ["source.hyperv-iso.windows11"]
+  sources = [
+    "source.hyperv-iso.windows11",
+    "source.virtualbox-iso.windows11"
+  ]
 
   provisioner "windows-restart" {
     restart_timeout = "30m"
-  }
-
-  provisioner "powershell" {
-    inline = ["New-Item -ItemType Directory -Path C:/temp/ -Force"]
-  }
-
-  provisioner "file" {
-    source = var.sqlserver_iso_url
-    destination = "C:/temp/sqlserver_2019.iso"
   }
 
   provisioner "powershell" {
