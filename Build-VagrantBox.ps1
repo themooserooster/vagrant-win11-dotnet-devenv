@@ -1,6 +1,6 @@
 param(
     [switch]$Debug = $false,
-    [string][ValidateSet("HyperV", "Virtualbox")][Parameter(Mandatory = $true)]$Format
+    [string][ValidateSet("HyperV", "Virtualbox")][Parameter(Mandatory = $true)]$ProviderFormat
 )
 
 $ErrorActionPreference = 'Stop'
@@ -12,7 +12,7 @@ function Invoke-Packer {
     }
     
     try {
-        packer build .
+        packer build ./($ProviderFormat.ToLower())
     }
     catch {
         Write-Error "Packer experienced an error. Cancelling development environment build..."
@@ -33,8 +33,8 @@ function Clear-PreviousBuild {
         Remove-Item -Path .vagrant -Recurse -Force
     }
 
-    if (Test-Path -Path .\windows_11_hyperv.box) {
-        Remove-Item -Path .\windows_11_hyperv.box
+    if (Test-Path -Path .\($ProviderFormat.ToLower())\windows_11.box) {
+        Remove-Item -Path .\($ProviderFormat.ToLower())\windows_11.box
     }
 }
 

@@ -4,5 +4,5 @@ hyperv_configuration_version = "9.2"
 windows_iso_checksum = "sha256:a138016401223bbe927a7930b0c70948fdbf0b2b1dee216e6d559061493f2ec6"
 windows_iso_url = "./iso/windows_11.iso"
 memory = "16384"
-vm_name = "windows_11_hyperv"
+vm_name = "windows11"
 enable_dynamic_memory = true
