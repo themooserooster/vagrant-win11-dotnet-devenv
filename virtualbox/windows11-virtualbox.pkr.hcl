@@ -34,7 +34,7 @@ source "virtualbox-iso" "windows11" {
   guest_os_type                    = "Windows10_64"
   vm_name                          = var.vm_name
   boot_command                     = ["a<wait>a<wait>a"]
-  # shutdown_command                 = "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\""
+  shutdown_command                 = "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\""
   boot_wait                        = "-1s"
   cd_files                         = [
                                         "./answer_files/Autounattend.xml", 

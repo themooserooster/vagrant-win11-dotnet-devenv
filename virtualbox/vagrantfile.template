@@ -3,6 +3,11 @@
 
 Vagrant.require_version ">= 2.2.19"
 
+def prompt(*args)
+  print(*args)
+  return gets.chomp
+end
+
 Vagrant.configure("2") do |config|
 
   config.vm.box = "windows11-virtualbox"
